@@ -81,7 +81,6 @@ export default {
       this.emitter.on('selectFilter',(a)=>{
         this.selectedFilter = a
         console.log(a);
-        console.log(this.selectedFilter);
       })
     },
     }
