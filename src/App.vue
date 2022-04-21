@@ -9,7 +9,7 @@
       </ul>
       <img src="./assets/logo.png" class="logo" />
     </div>
-    <Container @Editcontents='contents = $event' :postData='postData' :step='step' :url='url'/>
+    <Container @Editcontents='contents = $event' :selectedFilter='selectedFilter' :postData='postData' :step='step' :url='url'/>
     <button v-if="step === 0" @click="more">더보기</button>
     <div class="footer">
       <ul class="footer-button-plus">
@@ -37,6 +37,7 @@ export default {
       step : 0,
       url : '',
       contents: '',
+      selectedFilter: '',
       date: new Date().toLocaleString('en-us',{month:'short', day:'numeric'})
     }
   },
@@ -71,12 +72,18 @@ export default {
         date: this.date,
         liked: false,
         content: this.contents,
-        filter: "perpetua"
+        filter: this.selectedFilter
       };
       this.postData.unshift(newPost);
       this.step = 0;
     },
-    
+    mounted(){
+      this.emitter.on('selectFilter',(a)=>{
+        this.selectedFilter = a
+        console.log(a);
+        console.log(this.selectedFilter);
+      })
+    },
     }
 }
 </script>

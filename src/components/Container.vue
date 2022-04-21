@@ -4,18 +4,15 @@
         <Post v-for="(posts,a) in postData" :key="a" :postData="postData[a]"/>
     </div>
     <div v-if="step === 1">
-        <div :style="{backgroundImage : `url(${url})`}" class="upload-image"></div>
+        <div :style="{backgroundImage : `url(${url})`}" class="upload-image" :class="selectedFilter"></div>
             <div class="filters">
-                <div :style="{backgroundImage : `url(${url})`}" class="filter-1"></div>
-                <div :style="{backgroundImage : `url(${url})`}" class="filter-1"></div>
-                <div :style="{backgroundImage : `url(${url})`}" class="filter-1"></div>
-                <div :style="{backgroundImage : `url(${url})`}" class="filter-1"></div>
-                <div :style="{backgroundImage : `url(${url})`}" class="filter-1"></div>
+                <FilterBox v-for="(filters,a) in filter" :key="a" :filters='filter[a]' :url='url'>
+                </FilterBox>
             </div>
     </div>
 
     <div  v-if="step === 2">
-        <div :style="{backgroundImage : `url(${url})`}" class="upload-image"></div>
+        <div :style="{backgroundImage : `url(${url})`}" class="upload-image" :class="selectedFilter"></div>
         <div class="write">
             <textarea @change="$emit('Editcontents',content)" v-model="content" class="write-box">write!</textarea>
         </div>
@@ -26,10 +23,13 @@
 
 <script>
 import Post from './Post.vue';
+import FilterBox from './FilterBox.vue';
+import filter from '../assets/filter.js';
 export default {
     name: 'Container-box',
     components:{
         Post,
+        FilterBox,
     },
     props : {
         postData :Array,
@@ -39,7 +39,14 @@ export default {
     data(){
         return{ 
             content : '',
+            filter : filter,
+            selectedFilter:''
         }
+    },
+    mounted(){
+        this.emitter.on('selectFilter',(a)=>{
+            this.selectedFilter = a
+        })
     },
 }
 </script>

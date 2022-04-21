@@ -4,7 +4,7 @@
         <div :style="{backgroundImage : `url(${postData.userImage})`}" class="profile"></div>
         <span class="profile-name">{{postData.name}}</span>
         </div>
-        <div :style="{backgroundImage : `url(${postData.postImage})`}" class="post-body"></div>
+        <div :class="postData.filter" :style="{backgroundImage : `url(${postData.postImage})`}" class="post-body" ></div>
         <div class="post-content">
         <p>{{postData.likes}} Likes</p>
         <p><strong>{{postData.name}}</strong> {{postData.content}}</p>
@@ -19,6 +19,7 @@ export default {
     props : {
         postData :Array,
     },
+    
 }
 </script>
 
