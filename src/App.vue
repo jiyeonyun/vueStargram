@@ -8,12 +8,11 @@
       </ul>
       <img src="./assets/logo.png" class="logo" />
     </div>
-
-    <Container :postData='postData'/>
-
+    <Container :postData='postData' :step='step' :url='url'/>
+    <button @click="more">더보기</button>
     <div class="footer">
       <ul class="footer-button-plus">
-        <input type="file" id="file" class="inputfile" />
+        <input @change="upload" accept="image/*" type="file" id="file" class="inputfile" />
         <label for="file" class="input-plus">+</label>
       </ul>
   </div>
@@ -22,7 +21,8 @@
 <script>
 import Container from './components/Container.vue';
 import postData from './assets/data.js';
-
+import axios from 'axios';
+axios.get();
 export default {
   name: 'App',
   components: {
@@ -30,9 +30,36 @@ export default {
   },
   data(){
     return{
-      postData : postData,
+      originData : postData,
+      postData : [...postData],
+      request : 1,
+      step : 0,
+      url : '',
     }
   },
+  methods:{
+    more(){
+      if(this.request === 1){
+          axios.get('https://codingapple1.github.io/vue/more0.json')
+        .then((result)=>{
+          this.postData.push(result.data);
+        });
+        this.request ++;
+      }
+      else if(this.request === 2){
+          axios.get('https://codingapple1.github.io/vue/more1.json')
+        .then((result)=>{
+          this.postData.push(result.data);
+        });
+        this.request ++;
+      }
+      },
+    upload(e){
+      let file = e.target.files;
+      this.url = URL.createObjectURL(file[0]);
+      this.step++
+    }
+    }
 }
 </script>
 
