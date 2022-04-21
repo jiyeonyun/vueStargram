@@ -1,15 +1,16 @@
 <template>
   <div class="header">
       <ul class="header-button-left">
-        <li>Cancel</li>
+        <li v-if="step>=1" @click="step--">Cancel</li>
       </ul>
       <ul class="header-button-right">
-        <li>Next</li>
+        <li v-if="step === 1" @click="step++">Next</li>
+        <li v-if="step === 2" @click="publish">게시</li>
       </ul>
       <img src="./assets/logo.png" class="logo" />
     </div>
-    <Container :postData='postData' :step='step' :url='url'/>
-    <button @click="more">더보기</button>
+    <Container @Editcontents='contents = $event' :postData='postData' :step='step' :url='url'/>
+    <button v-if="step === 0" @click="more">더보기</button>
     <div class="footer">
       <ul class="footer-button-plus">
         <input @change="upload" accept="image/*" type="file" id="file" class="inputfile" />
@@ -35,6 +36,8 @@ export default {
       request : 1,
       step : 0,
       url : '',
+      contents: '',
+      date: new Date().toLocaleString('en-us',{month:'short', day:'numeric'})
     }
   },
   methods:{
@@ -58,7 +61,22 @@ export default {
       let file = e.target.files;
       this.url = URL.createObjectURL(file[0]);
       this.step++
-    }
+    },
+    publish(){
+      let newPost = {
+        name: "j1y2on",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.url,
+        likes: 0,
+        date: this.date,
+        liked: false,
+        content: this.contents,
+        filter: "perpetua"
+      };
+      this.postData.unshift(newPost);
+      this.step = 0;
+    },
+    
     }
 }
 </script>

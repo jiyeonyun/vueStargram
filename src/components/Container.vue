@@ -17,7 +17,7 @@
     <div  v-if="step === 2">
         <div :style="{backgroundImage : `url(${url})`}" class="upload-image"></div>
         <div class="write">
-            <textarea class="write-box">write!</textarea>
+            <textarea @change="$emit('Editcontents',content)" v-model="content" class="write-box">write!</textarea>
         </div>
     </div>
 
@@ -35,7 +35,12 @@ export default {
         postData :Array,
         step : Number,
         url : String,
-    }
+    },
+    data(){
+        return{ 
+            content : '',
+        }
+    },
 }
 </script>
 
