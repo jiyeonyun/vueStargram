@@ -4,9 +4,11 @@
         <div :style="{backgroundImage : `url(${postData.userImage})`}" class="profile"></div>
         <span class="profile-name">{{postData.name}}</span>
         </div>
-        <div :style="{backgroundImage : `url(${postData.postImage})`}" :class="postData.filter" class="post-body" ></div>
+        <div :style="{backgroundImage : `url(${postData.postImage})`}" class="post-body" :class="postData.filter"></div>
         <div class="post-content">
-        <p>{{postData.likes}} Likes</p>
+        <p>{{$store.state.postData[id].likes}} Likes</p> 
+        <button v-if="hearts=== true" class="button" @click="heart">🤍</button>
+        <button v-if="hearts=== false" class="button" @click="heart">❤️</button>
         <p><strong>{{postData.name}}</strong> {{postData.content}}</p>
         <p class="date">{{postData.date}}</p>
         </div>
@@ -18,8 +20,20 @@ export default {
     name : 'post-vue',
     props : {
         postData :Array,
+        id: Number,
     },
-    
+    data(){
+      return{
+        hearts : true,
+      }
+    },
+    methods : {
+      heart(){
+        this.$store.commit('likePlus',this.id);
+        this.hearts = !this.hearts;
+
+      }
+    }
 }
 </script>
 
@@ -62,4 +76,13 @@ export default {
   color: grey;
   margin-top: -8px;
 } 
+.button{
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+.button:hover{
+  transform: scale(1.1);
+}
 </style>

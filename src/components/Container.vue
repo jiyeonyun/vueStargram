@@ -1,20 +1,20 @@
 <template>
 <div>
     <div v-if="step === 0">
-        <Post v-for="(posts,a) in postData" :key="a" :postData="postData[a]"/>
+        <Post v-for="(posts,a) in postData" :key="a" :postData="postData[a]" :id="posts.id"/>
     </div>
     <div v-if="step === 1">
-        <div :style="{backgroundImage : `url(${url})`}" class="upload-image" :class="selectedFilter"></div>
+        <div :style="{backgroundImage : `url(${url})`}" class="upload-image" :class="$store.state.selectedfilter"></div>
             <div class="filters">
-                <FilterBox v-for="(filters,a) in filter" :key="a" :filters='filter[a]' :url='url'>
+                <FilterBox v-for="(filters,a) in filter" :key="a" :filters='filter[a]' :url='url' :a="a">
                 </FilterBox>
             </div>
     </div>
 
     <div  v-if="step === 2">
-        <div :style="{backgroundImage : `url(${url})`}" class="upload-image" :class="selectedFilter"></div>
+        <div :style="{backgroundImage : `url(${url})`}" class="upload-image" :class="$store.state.selectedfilter"></div>
         <div class="write">
-            <textarea @change="$emit('Editcontents',content)" v-model="content" class="write-box">write!</textarea>
+            <textarea placeholder="글을 작성 해 주세요 " @change="$emit('Editcontents',content)" v-model="content" class="write-box">write!</textarea>
         </div>
     </div>
 
@@ -40,14 +40,13 @@ export default {
         return{ 
             content : '',
             filter : filter,
-            selectedFilter:''
         }
     },
-    mounted(){
-        this.emitter.on('selectFilter',(a)=>{
-            this.selectedFilter = a
-        })
-    },
+    // mounted(){
+    //     this.emitter.on('selectFilter',(a)=>{
+    //         this.selectedFilter = a
+    //     })
+    // },
 }
 </script>
 

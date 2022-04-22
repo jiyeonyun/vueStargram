@@ -1,5 +1,5 @@
 <template>
-    <div @click="fire" class="filter-item" :class="filters" :style="`background-image:url(${url})`">
+    <div @click="$store.commit('changefilter',filters)" class="filter-item" :class="filters" :style="`background-image:url(${url})`">
     <span class="filter-name">{{filters}} </span>   
     </div>       
 </template>
@@ -17,9 +17,9 @@ export default {
         filters :String,
     },
     methods : {
-        fire(){
-            this.emitter.emit('selectFilter',this.filter);
-        }
+        // fire(){
+        //     this.emitter.emit('selectFilter',this.filter);
+        // }
     },
     
 }

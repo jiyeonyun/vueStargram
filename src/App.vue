@@ -1,5 +1,6 @@
 <template>
-  <div class="header">
+ <div class="wrap" ref="wrap">
+    <div class="header">
       <ul class="header-button-left">
         <li v-if="step>=1" @click="step--">Cancel</li>
       </ul>
@@ -10,18 +11,17 @@
       <img src="./assets/logo.png" class="logo" />
     </div>
     <Container @Editcontents='contents = $event' :selectedFilter='selectedFilter' :postData='postData' :step='step' :url='url'/>
-    <button v-if="step === 0" @click="more">더보기</button>
     <div class="footer">
       <ul class="footer-button-plus">
         <input @change="upload" accept="image/*" type="file" id="file" class="inputfile" />
         <label for="file" class="input-plus">+</label>
       </ul>
   </div>
+ </div>
 </template>
 
 <script>
 import Container from './components/Container.vue';
-import postData from './assets/data.js';
 import axios from 'axios';
 axios.get();
 export default {
@@ -31,33 +31,16 @@ export default {
   },
   data(){
     return{
-      originData : postData,
-      postData : [...postData],
+      postData : this.$store.state.postData,
       request : 1,
       step : 0,
       url : '',
       contents: '',
-      selectedFilter: '',
-      date: new Date().toLocaleString('en-us',{month:'short', day:'numeric'})
+      date: new Date().toLocaleString('en-us',{month:'short', day:'numeric'}),
+      tr : true,
     }
   },
   methods:{
-    more(){
-      if(this.request === 1){
-          axios.get('https://codingapple1.github.io/vue/more0.json')
-        .then((result)=>{
-          this.postData.push(result.data);
-        });
-        this.request ++;
-      }
-      else if(this.request === 2){
-          axios.get('https://codingapple1.github.io/vue/more1.json')
-        .then((result)=>{
-          this.postData.push(result.data);
-        });
-        this.request ++;
-      }
-      },
     upload(e){
       let file = e.target.files;
       this.url = URL.createObjectURL(file[0]);
@@ -65,6 +48,7 @@ export default {
     },
     publish(){
       let newPost = {
+        id:this.postData.length,
         name: "j1y2on",
         userImage: "https://placeimg.com/100/100/arch",
         postImage: this.url,
@@ -72,18 +56,21 @@ export default {
         date: this.date,
         liked: false,
         content: this.contents,
-        filter: this.selectedFilter
+        filter: this.$store.state.selectedfilter,
       };
-      this.postData.unshift(newPost);
+      this.postData.push(newPost);
       this.step = 0;
+      this.tr = !this.tr
     },
-    mounted(){
-      this.emitter.on('selectFilter',(a)=>{
-        this.selectedFilter = a
-        console.log(a);
-      })
-    },
+    watch:{
+    postData(){
+      this.$nextTick(() => {
+                let wrap = this.$ref.wrap;
+                wrap.scrollTo({ top: wrap.scrollHeight, behavior: 'smooth' });
+            });
     }
+    }
+}
 }
 </script>
 
