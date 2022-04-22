@@ -8,7 +8,7 @@
         <li v-if="step === 1" @click="step++">Next</li>
         <li v-if="step === 2" @click="publish">게시</li>
       </ul>
-      <img src="./assets/logo.png" class="logo" />
+      <img @click="follower" src="./assets/logo.png" class="logo" />
     </div>
     <Container @Editcontents='contents = $event' :selectedFilter='selectedFilter' :postData='postData' :step='step' :url='url'/>
     <div class="footer">
@@ -33,7 +33,7 @@ export default {
     return{
       postData : this.$store.state.postData,
       request : 1,
-      step : 3,
+      step : 0,
       url : '',
       contents: '',
       date: new Date().toLocaleString('en-us',{month:'short', day:'numeric'}),
@@ -46,8 +46,13 @@ export default {
   //   },
   // },
   methods:{
-    now(){
-      return new Date();
+    follower(){
+      if(this.step !==3){
+        this.step=3
+        }
+        else{
+          this.step=0
+          }
     },
     upload(e){
       let file = e.target.files;
