@@ -18,11 +18,15 @@
         </div>
     </div>
 
+    <div  v-if="step === 3">
+        <Mypage :one='1'/>
+    </div>
 </div>
 </template>
 
 <script>
 import Post from './Post.vue';
+import Mypage from './Mypage.vue';
 import FilterBox from './FilterBox.vue';
 import filter from '../assets/filter.js';
 export default {
@@ -30,6 +34,7 @@ export default {
     components:{
         Post,
         FilterBox,
+        Mypage,
     },
     props : {
         postData :Array,

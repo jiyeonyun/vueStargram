@@ -33,14 +33,22 @@ export default {
     return{
       postData : this.$store.state.postData,
       request : 1,
-      step : 0,
+      step : 3,
       url : '',
       contents: '',
       date: new Date().toLocaleString('en-us',{month:'short', day:'numeric'}),
       tr : true,
     }
   },
+  // computed:{
+  // now2(){
+  //     return new Date();
+  //   },
+  // },
   methods:{
+    now(){
+      return new Date();
+    },
     upload(e){
       let file = e.target.files;
       this.url = URL.createObjectURL(file[0]);

@@ -6,9 +6,9 @@
         </div>
         <div :style="{backgroundImage : `url(${postData.postImage})`}" class="post-body" :class="postData.filter"></div>
         <div class="post-content">
-        <p>{{$store.state.postData[id].likes}} Likes</p> 
         <button v-if="hearts=== true" class="button" @click="heart">🤍</button>
         <button v-if="hearts=== false" class="button" @click="heart">❤️</button>
+        <p>{{$store.state.postData[id].likes}} Likes</p> 
         <p><strong>{{postData.name}}</strong> {{postData.content}}</p>
         <p class="date">{{postData.date}}</p>
         </div>
@@ -81,6 +81,7 @@ export default {
   background: transparent;
   cursor: pointer;
   font-size: 1.3rem;
+  margin-top: 1.3rem;
 }
 .button:hover{
   transform: scale(1.1);

@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+
+import { createStore } from 'vuex';
 
 const store = createStore({
     state(){
@@ -38,7 +39,8 @@ const store = createStore({
                     filter: "lofi"
                     }
                 ],
-            selectedfilter: ''
+            selectedfilter: '',
+            // more :{},
         }
     },
     mutations :{
@@ -54,8 +56,21 @@ const store = createStore({
         },
         changefilter(state,a){
             state.selectedfilter = a
-        }
+        },
+        // setMore(state,a){
+        //     state.more = a
+        // }
     },
+    // actions :{
+    //     //ajax....그리고 오래걸리는 작업들
+    //     getData(context){
+    //         axios.get('https://codingapple1.github.io/vue/more0.json').then((a)=>{
+    //             context.this.commit('setMore',a.data)
+    //         });
+            
+    //     }
+
+    // },
 });
 
 export default store;
